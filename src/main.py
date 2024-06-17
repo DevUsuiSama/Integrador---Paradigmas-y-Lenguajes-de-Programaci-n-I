@@ -106,6 +106,8 @@ def euler_method(max_time, t, T, dt):
     T_next = T + dt * k * (T - Tm)
     lista_de_datos.insertar(Nodo(t, T))
     plt.scatter(t, T)  # Graficar en tiempo real
+    plt.xlabel("Tiempo (t)")
+    plt.ylabel("Temperatura (T)")
     plt.pause(0.05)
     euler_method(max_time, t + dt, T_next, dt)
 
@@ -166,6 +168,8 @@ def main():
                 plt.ion()
                 plt.title("Punto en la Gráfica [Tiempo, Valor Imagen]")  # Título de la gráfica
                 plt.scatter(t, T)  # Gráfica en tiempo real
+                plt.xlabel("Tiempo (t)")
+                plt.ylabel("Temperatura (T)")
                 plt.ioff()  # Desactivar modo interactivo
                 plt.show()
                 error = calcular_error(T, t)
