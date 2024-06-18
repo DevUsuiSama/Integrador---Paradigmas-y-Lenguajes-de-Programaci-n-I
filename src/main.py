@@ -74,6 +74,18 @@ class LinkedList:
                     return actual
                 actual = actual.siguiente
             return None
+    def convertir_linkedlist_a_array(self):
+        lista_temporal = []
+        lista_tiempo = []
+        lista_temperatura = []
+        nodo_actual: Nodo = self.cabecera
+        while nodo_actual:
+            lista_tiempo.append(nodo_actual.tiempo)
+            lista_temperatura.append(nodo_actual.temperatura)
+            nodo_actual = nodo_actual.siguiente
+        lista_temporal.append(lista_tiempo)
+        lista_temporal.append(lista_temperatura)
+        return lista_temporal
     def recorrer_e_imprimir(self):
         aux = self.cabecera
         while aux:
@@ -93,8 +105,8 @@ def controlar_opcion(opcion: int, conjunto: list):
     return False
 
 # Parámetros de la ecuación diferencial
-k = 0.1  # valor de ejemplo
-Tm = 25  # valor de ejemplo
+k = 0.1  # Constante K
+Tm = 25  # Temperatura ambiente
 
 # Estructura para almacenar los datos
 lista_de_datos = LinkedList()
@@ -119,6 +131,22 @@ def calcular_error(punto_ingresado, tiempo_dado):
     else:
         print("-- Informe -- Tiempo no encontrado en la lista.")
         return None
+    
+# Solución analítica
+def analytical_solution(k, Tm, T0, t):
+    return Tm + (T0 - Tm) * np.exp(-k * t)
+
+# Comparar soluciones
+def compare_solutions(times, euler_temperatures, k, Tm, T0):
+    # Calcular la solución analítica para cada tiempo
+    analytical_temperatures = [analytical_solution(k, Tm, T0, time) for time in times]
+    # Graficar ambas soluciones para compararlas visualmente
+    plt.plot(times, euler_temperatures, label='Método de Euler')
+    plt.plot(times, analytical_temperatures, label='Solución Analítica', linestyle='--')
+    plt.xlabel('Tiempo (t)')
+    plt.ylabel('Temperature (T)')
+    plt.legend()
+    plt.show()
 
 def main():
     historial_coordenadas_y_error = []
@@ -151,6 +179,11 @@ def main():
                 plt.show()
                 # Mostrar los datos en crudo
                 lista_de_datos.recorrer_e_imprimir()
+                solucion = lista_de_datos.convertir_linkedlist_a_array()
+                # =================================================================
+                # COMPARACIÓN ENTRE LA SOLUCIÓN OBTENIDA DEL MÉTODO DE EULER CON LA SOLUCIÓN ANALÍTICA
+                compare_solutions(solucion[0], solucion[1], k, Tm, 0)
+                # =================================================================
                 input('\nPresione cualquier tecla para continuar...')
                 clear()
             elif opcion == 2:
