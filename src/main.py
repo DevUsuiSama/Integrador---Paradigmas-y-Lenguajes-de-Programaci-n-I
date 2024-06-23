@@ -1,3 +1,8 @@
+#
+# Trabajo Práctico Nº 2
+#
+# Alumnos: José Fernando Usui, Luciana Rojas y Luciano Pacheco
+#
 import os
 import matplotlib.pyplot as plt
 import numpy as np
